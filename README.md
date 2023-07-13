@@ -12,7 +12,7 @@ This project **IS NOT** associated with official Dragon City franchise.
 - **Offline Access:** Dragondex caches data locally, allowing users to access previously viewed dragon information even without an internet connection.
 
 ## Screenshots
--not yet available
+![image](https://github.com/qryskalyst20/Dragondex/assets/65181897/19e6f24f-70f5-469f-bff7-bde2a7f870f3)
 
 ## Installation
 To run Dragondex locally, follow these steps:
