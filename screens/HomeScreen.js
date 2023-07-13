@@ -1,3 +1,4 @@
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Text,
   SafeAreaView,
@@ -7,10 +8,9 @@ import {
   Image,
 } from "react-native";
 import { useFonts } from "expo-font";
-import { useCallback } from "react";
-import * as SplashScreen from "expo-splash-screen";
+import { Icon } from "@rneui/base";
 import OptionsButton from "../components/OptionButton";
-import { SettingOutlined } from "@ant-design/icons";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -18,15 +18,19 @@ export default function HomeScreen({ navigation }) {
     "SF-Regular": require("../assets/fonts/SF-Pro-Text-Regular.otf"),
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  const [placeholder, setPlaceholder] = useState(
+    "Search dragons, elements, rarity..."
+  );
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const handleFocus = () => {
+    setPlaceholder("");
+  };
+
+  const handleBlur = () => {
+    if (placeholder === "") {
+      setPlaceholder("Search dragons, elements, rarity...");
+    }
+  };
 
   const optionsimages = {
     elements: require("../assets/images/element.png"),
@@ -35,12 +39,25 @@ export default function HomeScreen({ navigation }) {
     source: require("../assets/images/source.png"),
   };
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  useEffect(() => {
+    onLayoutRootView();
+  }, [onLayoutRootView]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <SafeAreaView
       onLayout={onLayoutRootView}
       className="flex-1 bg-[#212121] items-center"
     >
-      {/* <SettingOutlined /> */}
       <View className="w-[90%] mt-[100px]">
         <View>
           <Text
@@ -51,15 +68,26 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </View>
 
-        <TextInput
-          className=" rounded-full my-5 border-[1px] py-4 px-5 bg-[#121212] text-slate-100"
-          style={{ fontFamily: "SF-Regular" }}
-          placeholder="Search dragons, elements, rarity..."
-          placeholderTextColor="#515151"
-          autoCorrect
-          keyboardAppearance="dark"
-          returnKeyType="search"
-        />
+        <View className="flex-row rounded-full my-5 border-[1px] py-4 px-5 bg-[#121212] text-slate-100">
+          <Icon
+            type="antdesign"
+            name="search1"
+            color={"#515151"}
+            size={20}
+            style={{ marginRight: 10 }}
+          />
+          <TextInput
+            style={{ fontFamily: "SF-Regular", color: "#fff" }}
+            placeholder={placeholder}
+            placeholderTextColor="#515151"
+            autoCorrect
+            keyboardAppearance="dark"
+            returnKeyType="search"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+        </View>
+
         <View id="screenOptions" className="flex flex-col">
           <View id="row1" className="mb-3">
             <TouchableOpacity
