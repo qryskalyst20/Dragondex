@@ -4,6 +4,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
@@ -26,6 +27,13 @@ export default function HomeScreen({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
+
+  const optionsimages = {
+    elements: require("../assets/images/element.png"),
+    rarity: require("../assets/images/rarity.png"),
+    ability: require("../assets/images/ability.png"),
+    source: require("../assets/images/source.png"),
+  };
 
   return (
     <SafeAreaView
@@ -55,15 +63,35 @@ export default function HomeScreen({ navigation }) {
         <View id="screenOptions" className="flex flex-col">
           <View id="row1" className="mb-3">
             <TouchableOpacity
-              className="bg-green-400 w-full h-[150px] rounded-2xl flex justify-end p-5"
+              className="bg-green-400 w-full h-[150px] rounded-2xl flex justify-end p-5 relative overflow-hidden"
               onPress={() => navigation.navigate("dragonsscreen")}
             >
               <Text
-                className="text-slate-100 text-2xl drop-shadow-4xl"
-                style={{ fontFamily: "SF-Bold" }}
+                className="text-slate-100 text-2xl"
+                style={{
+                  fontFamily: "SF-Bold",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.5,
+                  shadowRadius: 5.46,
+                  elevation: 9,
+                }}
               >
                 Dragons
               </Text>
+              <Image
+                source={require("../assets/images/dragon.png")}
+                style={{
+                  width: 300,
+                  height: 300,
+                  resizeMode: "stretch",
+                  position: "absolute",
+                  right: -80,
+                  bottom: -150,
+                  zIndex: -1,
+                  opacity: 0.1,
+                }}
+              />
             </TouchableOpacity>
           </View>
 
@@ -73,12 +101,14 @@ export default function HomeScreen({ navigation }) {
               bgColor={"rgb(248 113 113)"}
               navigation={navigation}
               screenName="elementsscreen"
+              imagelink={optionsimages.elements}
             />
             <OptionsButton
               title="Rarity"
               bgColor={"rgb(96 165 250)"}
               navigation={navigation}
               screenName="raritiesscreen"
+              imagelink={optionsimages.rarity}
             />
           </View>
 
@@ -88,12 +118,14 @@ export default function HomeScreen({ navigation }) {
               bgColor={"rgb(250 204 21)"}
               navigation={navigation}
               screenName="abilitiesscreen"
+              imagelink={optionsimages.ability}
             />
             <OptionsButton
-              title="test"
+              title="Sources"
               bgColor={"rgb(192 132 252)"}
               navigation={navigation}
               screenName="abilitiesscreen"
+              imagelink={optionsimages.source}
             />
           </View>
         </View>
