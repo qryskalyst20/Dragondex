@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import fs from "fs";
 
 const url = "https://dragoncity.fandom.com/wiki/Dragons/All";
 
@@ -15,11 +16,16 @@ const main = async () => {
       .map((egg) => {
         const dragonName = egg.querySelector("span").innerText;
         const url = egg.querySelector("a").href;
-        return { dragonName, url };
+        const imageUrl = egg.querySelector("img").src;
+        return { dragonName, url, imageUrl };
       });
   });
 
-  console.log(allEggs);
+  // console.log(allEggs);
+  // const fs = require("fs");
+  fs.writeFile("./dragons.json", JSON.stringify(allEggs), (err) =>
+    err ? console.log(err) : null
+  );
 };
 
 main();

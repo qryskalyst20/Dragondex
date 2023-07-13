@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import {
   Text,
-  SafeAreaView,
+  ScrollView,
   TextInput,
   View,
   TouchableOpacity,
@@ -54,9 +54,10 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView
+    <ScrollView
       onLayout={onLayoutRootView}
-      className="flex-1 bg-[#212121] items-center"
+      className="flex-1 bg-[#212121]"
+      contentContainerStyle={{ alignItems: "center" }}
     >
       <View className="w-[90%] mt-[100px]">
         <View>
@@ -158,6 +159,6 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
