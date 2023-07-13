@@ -1,5 +1,9 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 export default function DragonsScreen() {
-  return <View></View>;
+  return (
+    <View className="flex-1 items-center justify-center">
+      <Text>Dragons Screen</Text>
+    </View>
+  );
 }

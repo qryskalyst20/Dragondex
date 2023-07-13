@@ -68,13 +68,33 @@ export default function HomeScreen({ navigation }) {
           </View>
 
           <View id="row2" className="flex flex-row mb-3" style={{ gap: 12 }}>
-            <OptionsButton title="test" bgColor={"red"} />
-            <OptionsButton title="test" bgColor={"blue"} />
+            <OptionsButton
+              title="Elements"
+              bgColor={"rgb(248 113 113)"}
+              navigation={navigation}
+              screenName="elementsscreen"
+            />
+            <OptionsButton
+              title="Rarity"
+              bgColor={"rgb(96 165 250)"}
+              navigation={navigation}
+              screenName="raritiesscreen"
+            />
           </View>
 
           <View id="row2" className="flex flex-row" style={{ gap: 12 }}>
-            <OptionsButton title="test" bgColor={"yellow"} />
-            <OptionsButton title="test" bgColor={"purple"} />
+            <OptionsButton
+              title="Abilities"
+              bgColor={"rgb(250 204 21)"}
+              navigation={navigation}
+              screenName="abilitiesscreen"
+            />
+            <OptionsButton
+              title="test"
+              bgColor={"rgb(192 132 252)"}
+              navigation={navigation}
+              screenName="abilitiesscreen"
+            />
           </View>
         </View>
       </View>
