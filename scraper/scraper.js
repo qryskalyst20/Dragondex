@@ -3,7 +3,7 @@ import fs from "fs";
 
 const url = "https://dragoncity.fandom.com/wiki/Dragons/All";
 
-const main = async () => {
+export default async function scraper () {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url);
@@ -23,9 +23,9 @@ const main = async () => {
 
   // console.log(allEggs);
   // const fs = require("fs");
-  fs.writeFile("./dragons.json", JSON.stringify(allEggs), (err) =>
-    err ? console.log(err) : null
+
+  //WRITE TO FILE
+  // fs.writeFile("./dragons.json", JSON.stringify(allEggs), (err) =>
+  //   err ? console.log(err) : null
   );
 };
-
-main();
