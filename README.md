@@ -12,7 +12,7 @@ This project **IS NOT** associated with official Dragon City franchise.
 - **Offline Access:** Dragondex caches data locally, allowing users to access previously viewed dragon information even without an internet connection.
 
 ## Screenshots
--not yet available
+<img src="https://github.com/qryskalyst20/Dragondex/assets/65181897/19e6f24f-70f5-469f-bff7-bde2a7f870f3" width=300 /> 
 
 ## Installation
 To run Dragondex locally, follow these steps:
@@ -60,6 +60,7 @@ Dragondex would not have been possible without the following resources:
 
 - [Dragon City](https://www.dragoncitygame.com/) - The popular mobile game that inspired this app.
 - [React Native Expo](https://www.reactnative.dev/) - The framework used to build the Dragondex mobile app.
+- [Dragon City Fandom](https://dragoncity.fandom.com/) - The website that I use to scrape data from.
 
 ## Contact
 If you have any questions, suggestions, or feedback, feel free to reach out to the Dragondex team at qagura@protonmail.com.
