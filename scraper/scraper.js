@@ -1,9 +1,10 @@
-import puppeteer from "puppeteer";
-import fs from "fs";
+// let puppeteer = require("puppeteer");
+// let fs = require("fs");
+// import { AsyncStorage } from "react-native";
 
 const url = "https://dragoncity.fandom.com/wiki/Dragons/All";
 
-export default async function scraper() {
+const scraper = async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(url);
@@ -12,7 +13,7 @@ export default async function scraper() {
     const eggs = document.querySelectorAll(".bm_dragon_name");
 
     return Array.from(eggs)
-      .slice(0, 3)
+      .slice(0, 10)
       .map((egg) => {
         const dragonName = egg.querySelector("span").innerText;
         const url = egg.querySelector("a").href;
@@ -28,4 +29,6 @@ export default async function scraper() {
   // fs.writeFile("./dragons.json", JSON.stringify(allEggs), (err) =>
   //   err ? console.log(err) : null
   // );
-}
+};
+
+scraper();
