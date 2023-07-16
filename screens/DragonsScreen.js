@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  FlatList,
   RefreshControl,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
@@ -70,9 +71,8 @@ export default function DragonsScreen({ navigation }) {
       onLayout={onLayoutRootView}
       className="flex-1 min-h-screen bg-[#212121]"
     >
-      <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+      {/* <ScrollView
+        // contentContainerStyle={{ flex: 1 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -81,39 +81,56 @@ export default function DragonsScreen({ navigation }) {
             tintColor={"#fff"}
           />
         }
+      > */}
+      <TouchableOpacity
+        className="mt-[30px] ml-5 self-start"
+        onPress={() => navigation.navigate("homescreen")}
       >
-        <TouchableOpacity
-          className="mt-[30px] ml-5 self-start"
-          onPress={() => navigation.navigate("homescreen")}
-        >
-          <Icon type="antdesign" name="arrowleft" color={"#fff"} size={30} />
-        </TouchableOpacity>
-        <View className="w-[90%] flex items-start mt-5 ml-5">
-          <Text
-            className="text-white text-4xl"
-            style={{ fontFamily: "SF-Bold" }}
-          >
-            Dragons
-          </Text>
-        </View>
-        <View
-          className="flex-1 flex-row flex-wrap justify-center mt-5"
-          style={{ gap: 10 }}
-        >
-          {dragonNames.map((dragon, index) => (
-            <View
-              key={index}
-              className="w-[45%] h-[60%] bg-[#515151] items-center rounded-2xl"
-            >
-              <Text>{dragon.dragonName}</Text>
+        <Icon type="antdesign" name="arrowleft" color={"#fff"} size={30} />
+      </TouchableOpacity>
+
+      <View className="w-[90%] flex items-start mt-5 ml-5">
+        <Text className="text-white text-4xl" style={{ fontFamily: "SF-Bold" }}>
+          Dragons
+        </Text>
+      </View>
+
+      <View className="w-screen flex-1 mt-5">
+        <FlatList
+          data={dragonNames}
+          keyExtractor={(item, index) => index.toString()}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: "space-between", gap: 10 }}
+          renderItem={({ item }) => (
+            <View className="bg-[#515151] mb-3 flex-1 h-[150px] items-center justify-center rounded-2xl">
+              <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
+                {item.dragonName}
+              </Text>
               <Image
                 style={{ width: 65, height: 65 }}
-                source={{ uri: dragon.imageUrl }}
+                source={{ uri: item.imageUrl }}
               />
             </View>
-          ))}
-        </View>
-      </ScrollView>
+          )}
+        />
+      </View>
+      {/* <Text style={{ fontSize: 42, marginHorizontal: 20 }}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
+          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+          mollit anim id est laborum.
+        </Text> */}
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
