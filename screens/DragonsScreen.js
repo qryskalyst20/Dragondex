@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  RefreshControl,
+  TextInput,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
@@ -14,7 +14,7 @@ import { useFonts } from "expo-font";
 import { Icon } from "@rneui/base";
 // import puppeteer from "puppeteer";
 import dragonData from "../scraper/dragons.json";
-import scraper from "../scraper/scraper.js";
+// import scraper from "../scraper/scraper.js";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -89,20 +89,40 @@ export default function DragonsScreen({ navigation }) {
         <Icon type="antdesign" name="arrowleft" color={"#fff"} size={30} />
       </TouchableOpacity>
 
-      <View className="w-[90%] flex items-start mt-5 ml-5">
-        <Text className="text-white text-4xl" style={{ fontFamily: "SF-Bold" }}>
+      <View className="w-screen py-5 border-white border-b-2">
+        <Text
+          className="text-white text-4xl ml-5"
+          style={{ fontFamily: "SF-Bold" }}
+        >
           Dragons
         </Text>
+        <View className="w-[90%] mx-auto flex-row rounded-full mt-5 border-[1px] py-4 px-5 bg-[#121212] text-slate-100">
+          <Icon
+            type="antdesign"
+            name="search1"
+            color={"#515151"}
+            size={20}
+            style={{ marginRight: 10 }}
+          />
+          <TextInput
+            style={{ fontFamily: "SF-Regular", color: "#fff" }}
+            placeholder="Search dragons name"
+            placeholderTextColor="#515151"
+            autoCorrect
+            keyboardAppearance="dark"
+            returnKeyType="search"
+          />
+        </View>
       </View>
 
-      <View className="w-screen flex-1 mt-5">
+      <View className="w-screen flex-1">
         <FlatList
           data={dragonNames}
           keyExtractor={(item, index) => index.toString()}
           numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-between", gap: 10 }}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
           renderItem={({ item }) => (
-            <View className="bg-[#515151] mb-3 flex-1 h-[150px] items-center justify-center rounded-2xl">
+            <View className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
               <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
                 {item.dragonName}
               </Text>
@@ -114,23 +134,6 @@ export default function DragonsScreen({ navigation }) {
           )}
         />
       </View>
-      {/* <Text style={{ fontSize: 42, marginHorizontal: 20 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.
-        </Text> */}
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
