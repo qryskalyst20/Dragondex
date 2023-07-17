@@ -7,7 +7,6 @@ import DragonsScreen from "./screens/DragonsScreen";
 import AbilitiesScreen from "./screens/AbilitiesScreen";
 import ElementsScreen from "./screens/ElementsScreen";
 import RaritiesScreen from "./screens/RaritiesScreen";
-import "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
