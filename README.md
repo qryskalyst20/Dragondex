@@ -61,6 +61,7 @@ Dragondex would not have been possible without the following resources:
 - [Dragon City](https://www.dragoncitygame.com/) - The popular mobile game that inspired this app.
 - [React Native Expo](https://www.reactnative.dev/) - The framework used to build the Dragondex mobile app.
 - [Dragon City Fandom](https://dragoncity.fandom.com/) - The website that I use to scrape data from.
+- [DeetList](https://deetlist.com/dragoncity/) - Updates on events
 
 ## Contact
 If you have any questions, suggestions, or feedback, feel free to reach out to the Dragondex team at qagura@protonmail.com.
