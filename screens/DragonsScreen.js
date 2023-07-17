@@ -12,91 +12,45 @@ import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { Icon } from "@rneui/base";
-// import "expect-puppeteer";
-// import puppeteer from "puppeteer";
 import axios from "axios";
 import cheerio from "cheerio";
-import dragonData from "../scraper/dragons.json";
-// import scraper from "../scraper/scraper.js";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function DragonsScreen({ navigation }) {
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
+  const [dragonData, setDragonData] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const scraper = async () => {
+      const response = await axios.get(
+        "https://dragoncity.fandom.com/wiki/Dragons/All"
+      );
+      const html = response.data;
+
+      const $ = cheerio.load(html);
+      const articles = $(".bm_dragon_name");
+
+      const structuredData = [];
+
+      for (const article of articles) {
+        const imageUrl = decodeURIComponent(
+          $(article).find(".bm_dragon_square a img").attr("data-src")
+        );
+
+        const dragonName = $(article).find("span").text();
+
+        structuredData.push({ imageUrl, dragonName });
+      }
+
+      setDragonData(structuredData);
+    };
+
+    scraper();
   }, []);
 
-  // const [dragonNames, setDragonNames] = useState([]);
-  // useEffect(() => {
-  //   const names = dragonData.map((dragon) => ({
-  //     dragonName: dragon.dragonName,
-  //     imageUrl: dragon.imageUrl,
-  //   }));
-  //   setDragonNames(names);
-  // }, []);
-
-  // const [dragonData, setDragonData] = useState([]);
-  // const url = "https://dragoncity.fandom.com/wiki/Dragons/All";
-
-  // const scraper = async () => {
-  //   const browser = await puppeteer.launch();
-  //   const page = await browser.newPage();
-  //   await page.goto(url);
-  //   const allEggs = await page.evaluate(() => {
-  //     const eggs = document.querySelectorAll(".bm_dragon_name");
-
-  //     return Array.from(eggs)
-  //       .slice(0, 10)
-  //       .map((egg) => {
-  //         const dragonName = egg.querySelector("span").innerText;
-  //         const url = egg.querySelector("a").href;
-  //         const imageUrl = egg.querySelector("img").src;
-  //         return { dragonName, url, imageUrl };
-  //       });
-  //   });
-  //   setDragonData(allEggs);
-  // };
-
-  // useEffect(() => {
-  //   scraper();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await scraper();
-  //     setDragonData(data);
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  const scraper = async () => {
-    const response = await axios.get(
-      "https://dragoncity.fandom.com/wiki/Dragons/All"
-    );
-    const html = response.data;
-
-    const $ = cheerio.load(html);
-    // Select all the elements with the class name "athing"
-    const articles = $(".bm_dragon_name");
-
-    // Loop through the selected elements
-    for (const article of articles) {
-      // Organize the extracted data in an object
-      const structuredData = {
-        imageUrl: decodeURIComponent(
-          $(article).find(".bm_dragon_square a img").attr("data-src")
-        ),
-        dragonName: $(article).find("span").text(),
-      };
-
-      // Log each element's strcutured data results to the console
-      console.log(structuredData);
-    }
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
   };
 
   const [fontsLoaded] = useFonts({
@@ -123,21 +77,10 @@ export default function DragonsScreen({ navigation }) {
       onLayout={onLayoutRootView}
       className="flex-1 min-h-screen bg-[#212121]"
     >
-      {/* <ScrollView
-        // contentContainerStyle={{ flex: 1 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            colors={"#fff"}
-            tintColor={"#fff"}
-          />
-        }
-      > */}
       <TouchableOpacity
         className="mt-[30px] ml-5 self-start"
-        // onPress={() => navigation.navigate("homescreen")}
-        onPress={scraper}
+        onPress={() => navigation.navigate("homescreen")}
+        // onPress={scraper}
       >
         <Icon type="antdesign" name="arrowleft" color={"#fff"} size={30} />
       </TouchableOpacity>
@@ -147,7 +90,7 @@ export default function DragonsScreen({ navigation }) {
           className="text-white text-4xl ml-5"
           style={{ fontFamily: "SF-Bold" }}
         >
-          Dragonss
+          Dragons
         </Text>
         <View className="w-[90%] mx-auto flex-row rounded-full mt-5 border-[1px] py-4 px-5 bg-[#121212] text-slate-100">
           <Icon
@@ -169,11 +112,13 @@ export default function DragonsScreen({ navigation }) {
       </View>
 
       <View className="w-screen flex-1">
-        {/* <FlatList
+        <FlatList
           data={dragonData}
           keyExtractor={(item, index) => index.toString()}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: "space-between" }}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
           renderItem={({ item }) => (
             <View className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
               <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
@@ -185,7 +130,7 @@ export default function DragonsScreen({ navigation }) {
               />
             </View>
           )}
-        /> */}
+        />
       </View>
     </SafeAreaView>
   );
