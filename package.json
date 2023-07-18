@@ -6,15 +6,12 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "test": "jest"
-  },
-  "jest": {
-    "preset": "jest-puppeteer",
-    "verbose": true
+    "web": "expo start --web"
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
+    "@expo/json-file": "^8.2.37",
+    "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@rneui/base": "^4.0.0-rc.7",
@@ -22,6 +19,7 @@
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
     "expo": "^49.0.3",
+    "expo-file-system": "~15.4.2",
     "expo-font": "~11.4.0",
     "expo-splash-screen": "^0.20.4",
     "expo-status-bar": "~1.6.0",
@@ -37,10 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "jest": "^29.6.1",
-    "jest-puppeteer": "^9.0.0",
-    "postcss-import": "^15.1.0",
-    "puppeteer": "^20.8.2"
+    "postcss-import": "^15.1.0"
   },
   "private": true
 }

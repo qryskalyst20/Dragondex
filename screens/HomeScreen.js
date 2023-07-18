@@ -20,14 +20,6 @@ export default function HomeScreen({ navigation }) {
     "SF-Regular": require("../assets/fonts/SF-Pro-Text-Regular.otf"),
   });
 
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   const [placeholder, setPlaceholder] = useState(
     "Search dragons, elements, rarity..."
   );
@@ -68,14 +60,6 @@ export default function HomeScreen({ navigation }) {
       <ScrollView
         onLayout={onLayoutRootView}
         contentContainerStyle={{ alignItems: "center" }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            colors={"#fff"}
-            tintColor={"#fff"}
-          />
-        }
       >
         <View className="w-[90%] mt-[100px]">
           <View>

@@ -1,7 +1,6 @@
 import {
   View,
   SafeAreaView,
-  ScrollView,
   Text,
   TouchableOpacity,
   Image,
@@ -13,22 +12,22 @@ import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { Icon } from "@rneui/base";
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
+import LoadingScreen from "../LoadingScreen";
+// import { read } from "react-native-fs";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function DragonsScreen({ navigation }) {
   const [dragonData, setDragonData] = useState([]);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const scraper = async () => {
       const response = await axios.get(
         "https://dragoncity.fandom.com/wiki/Dragons/All"
       );
-      const html = response.data;
 
-      const $ = cheerio.load(html);
+      const $ = load(response.data);
       const articles = $(".bm_dragon_name");
 
       const structuredData = [];
@@ -37,7 +36,6 @@ export default function DragonsScreen({ navigation }) {
         const imageUrl = decodeURIComponent(
           $(article).find(".bm_dragon_square a img").attr("data-src")
         );
-
         const dragonName = $(article).find("span").text();
 
         structuredData.push({ imageUrl, dragonName });
@@ -49,9 +47,12 @@ export default function DragonsScreen({ navigation }) {
     scraper();
   }, []);
 
-  const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
 
   const [fontsLoaded] = useFonts({
     "SF-Bold": require("../assets/fonts/SF-Pro-Text-Bold.otf"),
@@ -77,7 +78,7 @@ export default function DragonsScreen({ navigation }) {
       onLayout={onLayoutRootView}
       className="flex-1 min-h-screen bg-[#212121]"
     >
-      <TouchableOpacity
+      {/* <TouchableOpacity
         className="mt-[30px] ml-5 self-start"
         onPress={() => navigation.navigate("homescreen")}
         // onPress={scraper}
@@ -109,28 +110,30 @@ export default function DragonsScreen({ navigation }) {
             returnKeyType="search"
           />
         </View>
-      </View>
+      </View> */}
 
       <View className="w-screen flex-1">
-        <FlatList
-          data={dragonData}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          renderItem={({ item }) => (
-            <View className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
-              <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
-                {item.dragonName}
-              </Text>
-              <Image
-                style={{ width: 65, height: 65 }}
-                source={{ uri: item.imageUrl }}
-              />
-            </View>
-          )}
-        />
+        {isLoading ? (
+          <LoadingScreen />
+        ) : (
+          <FlatList
+            data={dragonData}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            columnWrapperStyle={{ justifyContent: "space-between" }}
+            renderItem={({ item }) => (
+              <View className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
+                <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
+                  {item.dragonName}
+                </Text>
+                <Image
+                  style={{ width: 65, height: 65 }}
+                  source={{ uri: item.imageUrl }}
+                />
+              </View>
+            )}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
