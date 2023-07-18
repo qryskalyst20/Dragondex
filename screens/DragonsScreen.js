@@ -33,15 +33,19 @@ export default function DragonsScreen({ navigation }) {
       const structuredData = [];
 
       for (const article of articles) {
-        const imageUrl = decodeURIComponent(
-          $(article).find(".bm_dragon_square a img").attr("data-src")
-        );
+        const imgElement = $(article).find(".bm_dragon_square a img");
+        const imageUrl = imgElement.attr("data-src") || imgElement.attr("src");
         const dragonName = $(article).find("span").text();
 
         structuredData.push({ imageUrl, dragonName });
       }
 
       setDragonData(structuredData);
+
+      // console.log("First three dragons:");
+      // for (let i = 0; i < 4; i++) {
+      //   console.log(structuredData[i]);
+      // }
     };
 
     scraper();
