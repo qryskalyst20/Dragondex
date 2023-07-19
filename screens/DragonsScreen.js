@@ -126,7 +126,7 @@ export default function DragonsScreen({ navigation }) {
             numColumns={2}
             columnWrapperStyle={{ justifyContent: "space-between" }}
             renderItem={({ item }) => (
-              <View className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
+              <TouchableOpacity className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
                 <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
                   {item.dragonName}
                 </Text>
@@ -134,7 +134,7 @@ export default function DragonsScreen({ navigation }) {
                   style={{ width: 65, height: 65 }}
                   source={{ uri: item.imageUrl }}
                 />
-              </View>
+              </TouchableOpacity>
             )}
           />
         )}
