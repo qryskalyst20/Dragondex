@@ -14,12 +14,13 @@ import { Icon } from "@rneui/base";
 import axios from "axios";
 import { load } from "cheerio";
 import LoadingScreen from "../LoadingScreen";
-// import { read } from "react-native-fs";
+import DragonInfoScreen from "../components/DragonInfoScreen";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function DragonsScreen({ navigation }) {
   const [dragonData, setDragonData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const scraper = async () => {
@@ -40,6 +41,7 @@ export default function DragonsScreen({ navigation }) {
         structuredData.push({ imageUrl, dragonName });
       }
 
+      setIsLoading(false);
       setDragonData(structuredData);
 
       // console.log("First three dragons:");
@@ -51,12 +53,11 @@ export default function DragonsScreen({ navigation }) {
     scraper();
   }, []);
 
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 3000);
+  // }, []);
 
   const [fontsLoaded] = useFonts({
     "SF-Bold": require("../assets/fonts/SF-Pro-Text-Bold.otf"),
@@ -116,6 +117,7 @@ export default function DragonsScreen({ navigation }) {
         </View>
       </View> */}
 
+      {/* <DragonInfoScreen /> */}
       <View className="w-screen flex-1">
         {isLoading ? (
           <LoadingScreen />
@@ -126,12 +128,12 @@ export default function DragonsScreen({ navigation }) {
             numColumns={2}
             columnWrapperStyle={{ justifyContent: "space-between" }}
             renderItem={({ item }) => (
-              <TouchableOpacity className="bg-[#515151] m-1 flex-1 h-[130px] items-center justify-center rounded-2xl">
+              <TouchableOpacity className="bg-[#515151] m-1 flex-1 h-[130px] p-5 rounded-2xl">
                 <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
                   {item.dragonName}
                 </Text>
                 <Image
-                  style={{ width: 65, height: 65 }}
+                  style={{ width: 70, height: 70 }}
                   source={{ uri: item.imageUrl }}
                 />
               </TouchableOpacity>

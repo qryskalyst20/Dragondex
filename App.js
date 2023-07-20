@@ -7,6 +7,7 @@ import DragonsScreen from "./screens/DragonsScreen";
 import AbilitiesScreen from "./screens/AbilitiesScreen";
 import ElementsScreen from "./screens/ElementsScreen";
 import RaritiesScreen from "./screens/RaritiesScreen";
+import DragonInfoScreen from "./components/DragonInfoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="homescreen" component={HomeScreen} />
           <Stack.Screen name="dragonsscreen" component={DragonsScreen} />
+          <Stack.Screen name="dragoninfoscreen" component={DragonInfoScreen} />
           <Stack.Screen name="abilitiesscreen" component={AbilitiesScreen} />
           <Stack.Screen name="elementsscreen" component={ElementsScreen} />
           <Stack.Screen name="raritiesscreen" component={RaritiesScreen} />
