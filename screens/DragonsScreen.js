@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   TextInput,
+  VirtualizedList,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
@@ -13,8 +14,7 @@ import { useFonts } from "expo-font";
 import { Icon } from "@rneui/base";
 import axios from "axios";
 import { load } from "cheerio";
-import LoadingScreen from "../LoadingScreen";
-import DragonInfoScreen from "../components/DragonInfoScreen";
+import LoadingScreen from "../components/LoadingScreen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,7 +23,7 @@ export default function DragonsScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const scraper = async () => {
+    const scraper1 = async () => {
       const response = await axios.get(
         "https://dragoncity.fandom.com/wiki/Dragons/All"
       );
@@ -38,6 +38,15 @@ export default function DragonsScreen({ navigation }) {
         const imageUrl = imgElement.attr("data-src") || imgElement.attr("src");
         const dragonName = $(article).find("span").text();
 
+        // const response2 = await axios.get(
+        //   `https://dragoncity.fandom.com/wiki/${dragonName.replace(/ /g, "_")}`
+        // );
+
+        // const $2 = load(response2.data);
+
+        // const dragonElement = $2("tbody tr:nth-child(4) td:nth-child(1) a img")
+        //   .attr("alt");
+
         structuredData.push({ imageUrl, dragonName });
       }
 
@@ -50,14 +59,8 @@ export default function DragonsScreen({ navigation }) {
       // }
     };
 
-    scraper();
+    scraper1();
   }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 3000);
-  // }, []);
 
   const [fontsLoaded] = useFonts({
     "SF-Bold": require("../assets/fonts/SF-Pro-Text-Bold.otf"),
@@ -120,15 +123,24 @@ export default function DragonsScreen({ navigation }) {
       {/* <DragonInfoScreen /> */}
       <View className="w-screen flex-1">
         {isLoading ? (
-          <LoadingScreen />
+          <LoadingScreen text={"Loading dragon info..."} />
         ) : (
           <FlatList
             data={dragonData}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
             columnWrapperStyle={{ justifyContent: "space-between" }}
+            initialNumToRender={4}
+            windowSize={4}
             renderItem={({ item }) => (
-              <TouchableOpacity className="bg-[#515151] m-1 flex-1 h-[130px] p-5 rounded-2xl">
+              <TouchableOpacity
+                className="bg-[#515151] m-1 flex-1 h-[130px] p-5 rounded-2xl"
+                onPress={() =>
+                  navigation.navigate("dragoninfoscreen", {
+                    link: item.dragonName,
+                  })
+                }
+              >
                 <Text className="text-white" style={{ fontFamily: "SF-Bold" }}>
                   {item.dragonName}
                 </Text>
