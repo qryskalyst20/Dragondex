@@ -15,9 +15,29 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="homescreen" component={HomeScreen} />
-          <Stack.Screen name="dragonsscreen" component={DragonsScreen} />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="homescreen"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="dragonsscreen"
+            component={DragonsScreen}
+            options={{
+              title: "Dragons",
+              headerBackTitle: "Back",
+              headerTransparent: true,
+              headerLargeTitle: true,
+              headerTitleStyle: {
+                color: "#fff",
+              },
+              headerSearchBarOptions: {
+                hideWhenScrolling: true,
+                textColor: "#fff",
+              },
+            }}
+          />
           <Stack.Screen name="dragoninfoscreen" component={DragonInfoScreen} />
           <Stack.Screen name="abilitiesscreen" component={AbilitiesScreen} />
           <Stack.Screen name="elementsscreen" component={ElementsScreen} />

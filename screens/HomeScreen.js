@@ -56,7 +56,7 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-[#212121]">
+    <SafeAreaView className="flex-1 bg-primary">
       <ScrollView
         onLayout={onLayoutRootView}
         contentContainerStyle={{ alignItems: "center" }}
@@ -71,18 +71,18 @@ export default function HomeScreen({ navigation }) {
             </Text>
           </View>
 
-          <View className="flex-row rounded-full my-5 border-[1px] py-4 px-5 bg-[#121212] text-slate-100">
+          <View className="flex-row rounded-2xl my-5 py-3 px-4 bg-[#212121] text-slate-100">
             <Icon
               type="antdesign"
               name="search1"
-              color={"#515151"}
+              color={"#717171"}
               size={20}
               style={{ marginRight: 10 }}
             />
             <TextInput
               style={{ fontFamily: "SF-Regular", color: "#fff" }}
               placeholder={placeholder}
-              placeholderTextColor="#515151"
+              placeholderTextColor="#717171"
               autoCorrect
               keyboardAppearance="dark"
               returnKeyType="search"

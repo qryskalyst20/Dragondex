@@ -2,6 +2,7 @@ import { ScrollView, SafeAreaView, View, Text, Image } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { load } from "cheerio";
+import LoadingScreen from "./LoadingScreen";
 
 export default function DragonInfoScreen({ route, navigation }) {
   const { link } = route.params;
@@ -32,28 +33,46 @@ export default function DragonInfoScreen({ route, navigation }) {
 
     scraper1();
   }, []);
+
+  const getBackgroundColorClass = (element) => {
+    if (element === "Element Nature") {
+      return "bg-green-500";
+    } else if (element === "Element Flame") {
+      return "bg-red-500";
+    } else if (element === "Element Terra") {
+      return "bg-yellow-500";
+    }
+    return "bg-gray-500";
+  };
+
   return (
     <SafeAreaView className="bg-[#212121] flex-1">
-      <ScrollView
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {dragonData.map((data, index) => (
-          <View key={index}>
-            <Image
-              source={{ uri: data.dragonImage }}
-              style={{ width: 200, height: 200 }}
-            />
-            <Text className="text-white">{`https://dragoncity.fandom.com/wiki/${link.replace(
-              / /g,
-              "_"
-            )}`}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            flex: 1,
+            alignItems: "center",
+            // justifyContent: "center",
+          }}
+        >
+          {dragonData.map((data, index) => (
+            <View
+              key={index}
+              className={`${getBackgroundColorClass(
+                data.dragonElement
+              )} w-screen flex items-center justify-center`}
+            >
+              <Image
+                source={{ uri: data.dragonImage }}
+                style={{ width: 200, height: 200, resizeMode: "contain" }}
+              />
+              <Text className="text-white">{link}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

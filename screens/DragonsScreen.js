@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   TextInput,
-  VirtualizedList,
+  ScrollView,
+  Animated,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
@@ -38,25 +39,11 @@ export default function DragonsScreen({ navigation }) {
         const imageUrl = imgElement.attr("data-src") || imgElement.attr("src");
         const dragonName = $(article).find("span").text();
 
-        // const response2 = await axios.get(
-        //   `https://dragoncity.fandom.com/wiki/${dragonName.replace(/ /g, "_")}`
-        // );
-
-        // const $2 = load(response2.data);
-
-        // const dragonElement = $2("tbody tr:nth-child(4) td:nth-child(1) a img")
-        //   .attr("alt");
-
         structuredData.push({ imageUrl, dragonName });
       }
 
       setIsLoading(false);
       setDragonData(structuredData);
-
-      // console.log("First three dragons:");
-      // for (let i = 0; i < 4; i++) {
-      //   console.log(structuredData[i]);
-      // }
     };
 
     scraper1();
@@ -81,46 +68,17 @@ export default function DragonsScreen({ navigation }) {
     return null;
   }
 
+  const scrollY = new Animated.Value(0);
+  const translateY = scrollY.interpolate({
+    inputRange: [0, 110],
+    outputRange: [0, -110],
+  });
+
   return (
     <SafeAreaView
       onLayout={onLayoutRootView}
-      className="flex-1 min-h-screen bg-[#212121]"
+      className="flex-1 min-h-screen bg-primary"
     >
-      {/* <TouchableOpacity
-        className="mt-[30px] ml-5 self-start"
-        onPress={() => navigation.navigate("homescreen")}
-        // onPress={scraper}
-      >
-        <Icon type="antdesign" name="arrowleft" color={"#fff"} size={30} />
-      </TouchableOpacity>
-
-      <View className="w-screen py-5 border-white border-b-2">
-        <Text
-          className="text-white text-4xl ml-5"
-          style={{ fontFamily: "SF-Bold" }}
-        >
-          Dragons
-        </Text>
-        <View className="w-[90%] mx-auto flex-row rounded-full mt-5 border-[1px] py-4 px-5 bg-[#121212] text-slate-100">
-          <Icon
-            type="antdesign"
-            name="search1"
-            color={"#515151"}
-            size={20}
-            style={{ marginRight: 10 }}
-          />
-          <TextInput
-            style={{ fontFamily: "SF-Regular", color: "#fff" }}
-            placeholder="Search dragons name"
-            placeholderTextColor="#515151"
-            autoCorrect
-            keyboardAppearance="dark"
-            returnKeyType="search"
-          />
-        </View>
-      </View> */}
-
-      {/* <DragonInfoScreen /> */}
       <View className="w-screen flex-1">
         {isLoading ? (
           <LoadingScreen text={"Loading dragon info..."} />
@@ -132,9 +90,12 @@ export default function DragonsScreen({ navigation }) {
             columnWrapperStyle={{ justifyContent: "space-between" }}
             initialNumToRender={4}
             windowSize={4}
+            onScroll={(e) => {
+              scrollY.setValue(e.nativeEvent.contentOffset.y);
+            }}
             renderItem={({ item }) => (
               <TouchableOpacity
-                className="bg-[#515151] m-1 flex-1 h-[130px] p-5 rounded-2xl"
+                className="bg-secondary m-1 flex-1 h-[130px] p-5 rounded-2xl"
                 onPress={() =>
                   navigation.navigate("dragoninfoscreen", {
                     link: item.dragonName,
@@ -145,7 +106,7 @@ export default function DragonsScreen({ navigation }) {
                   {item.dragonName}
                 </Text>
                 <Image
-                  style={{ width: 70, height: 70 }}
+                  style={{ width: 70, height: 70, resizeMode: "contain" }}
                   source={{ uri: item.imageUrl }}
                 />
               </TouchableOpacity>
