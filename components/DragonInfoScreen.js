@@ -1,5 +1,5 @@
 import { ScrollView, SafeAreaView, View, Text, Image } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 import { load } from "cheerio";
 import LoadingScreen from "./LoadingScreen";
@@ -9,6 +9,17 @@ export default function DragonInfoScreen({ route, navigation }) {
 
   const [dragonData, setDragonData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: link,
+      headerBackTitle: "Back",
+      headerTransparent: true,
+      headerTitleStyle: {
+        color: "#fff",
+      },
+    });
+  });
 
   useEffect(() => {
     const scraper1 = async () => {

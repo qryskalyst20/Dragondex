@@ -5,11 +5,8 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  TextInput,
-  ScrollView,
-  Animated,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import * as React from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { Icon } from "@rneui/base";
@@ -20,10 +17,34 @@ import LoadingScreen from "../components/LoadingScreen";
 SplashScreen.preventAutoHideAsync();
 
 export default function DragonsScreen({ navigation }) {
-  const [dragonData, setDragonData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [dragonData, setDragonData] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Dragons",
+      headerBackTitle: "Back",
+      headerTransparent: true,
+      headerLargeTitle: true,
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerSearchBarOptions: {
+        hideWhenScrolling: true,
+        textColor: "#fff",
+        onChangeText: (event) => handleFilter(event.nativeEvent.text),
+      },
+    });
+  }, [navigation]);
+
+  function handleFilter(searchTerm) {
+    const filteredDragons = dragonData.filter((dragon) =>
+      dragon.dragonName.toUpperCase().includes(searchTerm.toUpperCase())
+    );
+    setDragonData(filteredDragons);
+  }
+
+  React.useEffect(() => {
     const scraper1 = async () => {
       const response = await axios.get(
         "https://dragoncity.fandom.com/wiki/Dragons/All"
@@ -54,25 +75,19 @@ export default function DragonsScreen({ navigation }) {
     "SF-Regular": require("../assets/fonts/SF-Pro-Text-Regular.otf"),
   });
 
-  const onLayoutRootView = useCallback(async () => {
+  const onLayoutRootView = React.useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     onLayoutRootView();
   }, [onLayoutRootView]);
 
   if (!fontsLoaded) {
     return null;
   }
-
-  const scrollY = new Animated.Value(0);
-  const translateY = scrollY.interpolate({
-    inputRange: [0, 110],
-    outputRange: [0, -110],
-  });
 
   return (
     <SafeAreaView
@@ -88,11 +103,9 @@ export default function DragonsScreen({ navigation }) {
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
             columnWrapperStyle={{ justifyContent: "space-between" }}
+            contentInsetAdjustmentBehavior="automatic"
             initialNumToRender={4}
             windowSize={4}
-            onScroll={(e) => {
-              scrollY.setValue(e.nativeEvent.contentOffset.y);
-            }}
             renderItem={({ item }) => (
               <TouchableOpacity
                 className="bg-secondary m-1 flex-1 h-[130px] p-5 rounded-2xl"
