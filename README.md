@@ -22,7 +22,7 @@ To run Dragondex locally, follow these steps:
 
 ```bash
 # Clone the repository:
-git clone https://github.com/your-username/dragondex.git
+git clone https://github.com/qryskalyst20/dragondex.git
 
 # Navigate to the project directory:
 cd dragondex
