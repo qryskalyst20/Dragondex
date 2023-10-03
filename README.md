@@ -2,7 +2,7 @@
 
 **Dragondex** - Dragon City Pokedex
 
-- Do visit the web version [here!](https://github.com/dragondex-web)
+- Do visit the web version [here!](https://github.com/qryskalyst20/dragondex-web)
 
 Dragondex is an open-sourced mobile app built using the React Native Expo framework. It serves as a comprehensive Pokedex for the popular game "Dragon City." With Dragondex, users can search for dragons, explore their abilities, and access valuable information about each dragon in the game.
 This project **IS NOT** associated with official Dragon City franchise.
